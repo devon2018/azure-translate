@@ -29,6 +29,11 @@ class AzureTranslatorServiceProvider extends ServiceProvider
                 Translate::class,
             ]);
         }
+
+        // Publish the language config file to config folder
+        $this->publishes([
+            __DIR__.'/config/language.php' => config_path('language.php'),
+        ]);
         
     }
 

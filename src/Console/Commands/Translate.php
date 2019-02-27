@@ -65,8 +65,7 @@ class Translate extends Command
         // loop over the translations returned 
         foreach ($translations as $key => $value) {
             $lang_line_v = htmlspecialchars($value); // encode the line
-            $this->addLineToLanguageFile($key.'/'.$file, "
-    '{$lang_k}' => \"{$lang_line_v}\", // {$string}".PHP_EOL);
+            $this->addLineToLanguageFile($key.'/'.$file, PHP_EOL."  '{$lang_k}' => \"{$lang_line_v}\", // {$string}".PHP_EOL);
         }
 
     }
@@ -92,7 +91,7 @@ return [
 ];              
                 ';
 
-                $w = \Storage::disk('local_r')->put('resources/lang/'.$key. '/'.$file.'.php', $base);
+                $w = \Storage::disk(config('language.local_storage'))->put('resources/lang/'.$key. '/'.$file.'.php', $base);
             }
         }
     }

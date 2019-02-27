@@ -1,6 +1,7 @@
 {
     "name": "devonray/azuretranslate",
-    "description": "Create azure translations for lumen",
+    "description": "Create azure translations for lumen and laravel",
+    "homepage": "https://devonray.net",
     "authors": [
         {
             "name": "Devon Ray",
@@ -8,6 +9,7 @@
         }
     ],
     "require": {
+        "php": "^7.2",
         "ixudra/curl": "^6.16"
     },
     "autoload": {

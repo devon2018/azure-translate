@@ -14,7 +14,7 @@ class AzureTranslate
      */
     private $available_languages;
 
-    
+     
     /**
      * Asure url to use
      * 
