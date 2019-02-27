@@ -29,6 +29,7 @@ class Translate extends Command
     public function handle()
     {
         if(empty(config('language.local_storage'))) throw new \Exception('Please add the local_storage option to your translations list');
+        if(!\file_exists(base_path().'/resources/lang/')) throw new \Exception('Please create the lang folder in your resource directory');
         
         $translator = new AzureTranslate(); // new up the translation class
 
@@ -50,11 +51,12 @@ class Translate extends Command
 
         // Check the available languages in the config
         $available_languages = config('language.available');
-
+        
         // Create the files and folders for the translation
         $this->createFilesAndFolders($available_languages, $file);
 
         $lang_k = implode('_',$key);
+
 
         // loop over the translations returned 
         foreach ($translations as $key => $value) {
