@@ -1,6 +1,6 @@
 {
     "name": "devonray/azuretranslate",
-    "description": "Create azure translations for lumen and laravel",
+    "description": "Create azure translations for lumen",
     "homepage": "https://devonray.net",
     "authors": [
         {
