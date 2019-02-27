@@ -20,11 +20,7 @@ class Translate extends Command
      * @var string
      */
     protected $description = 'Create a new translation from a string';
-
-    public function __construct() {
-        parent::__construct();
-        if(empty(config('translations.local_storage'))) throw new \Exception('Please add the localstorage option to your translations list');
-    }
+    
     /**
      * Execute the console command.
      *
@@ -32,6 +28,8 @@ class Translate extends Command
      */
     public function handle()
     {
+        if(empty(config('translations.local_storage'))) throw new \Exception('Please add the localstorage option to your translations list');
+        
         $translator = new AzureTranslate(); // new up the translation class
 
         $string = $this->argument('string'); // set the string
