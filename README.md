@@ -19,6 +19,7 @@ Add the following to your bootstrap/app.php file to register the service provide
 Copy the language file into your config/ directory
 
 add your Azure api key to your enviroment file
+[Get Azure key](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/translator-text-how-to-signup)
 
 ```env
   AZURE_KEY=secret
