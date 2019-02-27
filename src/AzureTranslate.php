@@ -12,7 +12,7 @@ class AzureTranslate
      * 
      * @var Array
      */
-    private $available_languages;
+    private $availableLanguages;
 
      
     /**
@@ -44,9 +44,10 @@ class AzureTranslate
     public function __construct()
     {
 
-        $this->available_languages = ($langs = config('language.available')) ? $langs : []; // Set the available languages
-
+        if(empty(config('language.available'))) throw new \Exception('Config for azure translate package not found'); // Check for the config
+        $this->availableLanguages = ($langs = config('language.available')) ? $langs : []; // Set the available languages
         $this->azure_key  = config('language.azure_key'); // Set the azure key
+        // if(empty($this->azure_key) || empty($this->availableLanguages)) throw new \Exception('Azure translate package not configured properly');
 
     }
 
@@ -59,11 +60,11 @@ class AzureTranslate
 
         $content = json_encode([['Text' => $string]]); // Set the content
 
-        $from = (array_key_exists($from, $this->available_languages)) ? $from : 'en';
+        $from = (array_key_exists($from, $this->availableLanguages)) ? $from : 'en';
 
-        unset($this->available_languages['us'], $this->available_languages[$from]); // Unset us because that's for frontent use only, and unset the from language
+        unset($this->availableLanguages['us'], $this->availableLanguages[$from]); // Unset us because that's for frontent use only, and unset the from language
 
-        $params = "&from={$from}&to=". implode("&to=",array_keys($this->available_languages) ); // Create params array
+        $params = "&from={$from}&to=". implode("&to=",array_keys($this->availableLanguages) ); // Create params array
 
         // Build up the response with all the headers
         $response =  Curl::to($this->azure_url . $this->azure_path . $params)
@@ -72,14 +73,19 @@ class AzureTranslate
             ->withHeader("Content-length: ". strlen($content))
             ->withHeader("X-ClientTraceId: " . $this->com_create_guid())
             ->withData($content)
-            ->post();          
+            ->post();
 
+        $response = json_decode($response);
 
-        $translations_array = (array)json_decode($response)[0]->translations; // Decode the response and create a translations array
+        if(!empty($response->error)) throw new \Exception($response->error->message); 
 
-        $translations_array[] = ['to' => $from, 'text' => $string]; // Add the from string to the array
-                
-        return array_column($translations_array, 'text', 'to'); // return array with the translations
+        if(!empty($response[0]) && count($response[0]->translations)) {
+            $translationsArray = $response[0]->translations;
+            $translationsArray[] = ['to' => $from, 'text' => $string]; // Add the from string to the array
+            return array_column($translationsArray, 'text', 'to'); // return array with the translations
+        }
+
+        return [];
 
     }
 

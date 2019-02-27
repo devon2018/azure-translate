@@ -21,16 +21,10 @@ class Translate extends Command
      */
     protected $description = 'Create a new translation from a string';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
+        if(empty(config('translations.local_storage'))) throw new \Exception('Please add the localstorage option to your translations list');
     }
-
     /**
      * Execute the console command.
      *
@@ -43,6 +37,8 @@ class Translate extends Command
         $string = $this->argument('string'); // set the string
 
         $translations = $translator->translate($string); // translate the string
+
+        if(!count($translations)) return;
 
         $key = explode('.', $this->argument('key')); // create the right path
 
