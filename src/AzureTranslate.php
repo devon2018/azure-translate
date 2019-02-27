@@ -47,7 +47,7 @@ class AzureTranslate
         if(empty(config('language.available'))) throw new \Exception('Config for azure translate package not found'); // Check for the config
         $this->availableLanguages = ($langs = config('language.available')) ? $langs : []; // Set the available languages
         $this->azure_key  = config('language.azure_key'); // Set the azure key
-        // if(empty($this->azure_key) || empty($this->availableLanguages)) throw new \Exception('Azure translate package not configured properly');
+        if(empty($this->azure_key) || empty($this->availableLanguages)) throw new \Exception('Azure translate package not configured properly');
 
     }
 
