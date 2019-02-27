@@ -1,0 +1,25 @@
+{
+    "name": "devonray/azuretranslate",
+    "description": "Create azure translations for lumen",
+    "authors": [
+        {
+            "name": "Devon Ray",
+            "email": "devon@devonray.net"
+        }
+    ],
+    "require": {
+        "ixudra/curl": "^6.16"
+    },
+    "autoload": {
+        "psr-4": {
+            "Devonray\\AzureTranslate\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Devonray\\AzureTranslate\\AzureTranslatorServiceProvider"
+            ]
+        }
+    }
+}
