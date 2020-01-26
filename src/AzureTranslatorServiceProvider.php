@@ -5,7 +5,7 @@ namespace Devonray\AzureTranslate;
 use Illuminate\Support\ServiceProvider;
 use Devonray\AzureTranslate\Console\Commands\Translate;
 use Illuminate\Foundation\AliasLoader;
-
+use Ixudra\Curl\Facades\Curl;
 
 class AzureTranslatorServiceProvider extends ServiceProvider
 {
@@ -19,9 +19,16 @@ class AzureTranslatorServiceProvider extends ServiceProvider
 
         $this->app->register(\Ixudra\Curl\CurlServiceProvider::class); // Register Curl
 
-        $this->app->alias('Curl', Ixudra\Curl\Facades\Curl::class); // Create Curl Alias
+        $this->app->alias('Curl', Curl::class); // Create Curl Alias
 
-        $this->app->configure('language'); // Load language config
+        
+        if (app() instanceof \Illuminate\Foundation\Application) {
+          // Laravel
+        } else {
+          die('works');
+          $this->app->configure('language'); // Load language config
+            // Lumen
+        }
 
         // Register the terminal Command
         if ($this->app->runningInConsole()) {
